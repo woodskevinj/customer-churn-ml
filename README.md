@@ -38,20 +38,6 @@ customer-churn-ml/
 ├── Dockerfile
 └── README.md
 
-customer-churn-ml/
-├── data/
-│ └── WA*Fn-UseC*-Telco-Customer-Churn.csv
-├── notebooks/
-│ ├── 01_exploratory_data_analysis.ipynb
-│ └── (upcoming) 02_data_preprocessing_and_feature_engineering.ipynb
-├── src/
-│ ├── preprocessing/
-│ ├── training/
-│ └── evaluation/
-├── requirements.txt
-├── Dockerfile
-└── README.md
-
 🚀 Getting Started
 1️⃣ Clone Repository
 git clone https://github.com/woodskevinj/customer-churn-ml.git
