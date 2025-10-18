@@ -1,0 +1,64 @@
+# -----------------------------
+# Python & Virtual Environment
+# -----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+*.manifest
+*.spec
+
+# Virtual environment folders
+env/
+venv/
+ENV/
+.venv/
+pip-wheel-metadata/
+
+# -----------------------------
+# Jupyter Notebooks
+# -----------------------------
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# -----------------------------
+# Data & Outputs
+# -----------------------------
+data/
+datasets/
+*.csv
+*.tsv
+*.parquet
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.pkl
+*.joblib
+*.h5
+*.json
+*.zip
+*.gz
+*.tar
+*.log
+
+# -----------------------------
+# IDEs & Editors
+# -----------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# PyCharm & VSCode Config
+# -----------------------------
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# -
