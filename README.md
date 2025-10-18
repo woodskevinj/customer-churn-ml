@@ -6,7 +6,7 @@ This project demonstrates the full applied ML lifecycle — from exploratory dat
 
 🧩 Project Overview
 
-Customer churn represents customers who discontinue their services — a key metric for subscription-based businesses.
+Customer churn represents customers who discontinue their services — a key metric for subscription-based businesses today.
 This project builds a predictive model to classify churn risk and reveal the key drivers behind customer attrition.
 
 🧠 Key Features
