@@ -28,7 +28,8 @@ pip-wheel-metadata/
 # -----------------------------
 # Data & Outputs
 # -----------------------------
-data/
+data/raw/
+data/processed/
 datasets/
 *.csv
 *.tsv
@@ -60,5 +61,3 @@ Thumbs.db
 *.iml
 *.sublime-workspace
 *.sublime-project
-
-# -

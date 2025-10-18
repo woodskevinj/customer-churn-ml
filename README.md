@@ -26,10 +26,16 @@ Deployment-Ready: Structured to scale into an API or MLOps workflow.
 🗂️ Project Structure
 customer-churn-ml/
 ├── data/
-│ └── WA*Fn-UseC*-Telco-Customer-Churn.csv
+│ ├── raw/
+│ │ └── WA*Fn-UseC*-Telco-Customer-Churn.csv
+│ └── processed/
+│ ├── X_train.csv
+│ ├── X_test.csv
+│ ├── y_train.csv
+│ └── y_test.csv
 ├── notebooks/
 │ ├── 01_exploratory_data_analysis.ipynb
-│ └── (upcoming) 02_data_preprocessing_and_feature_engineering.ipynb
+│ └── 02_data_preprocessing_and_feature_engineering.ipynb
 ├── src/
 │ ├── preprocessing/
 │ ├── training/
@@ -63,7 +69,7 @@ notebooks/01_exploratory_data_analysis.ipynb
 
 ⚙️ Environment Verification (Optional but Recommended)
 
-Inside your notebook, confirm you’re running in your virtual environment:
+Inside your notebook, confirm you’re running inside your virtual environment:
 
 import sys
 print(sys.executable)
@@ -102,3 +108,54 @@ Containerize and deploy the model as a REST API
 Telco Customer Churn Dataset — Kaggle
 
 IBM Sample Data Science Dataset
+
+🧭 Project-Level Data & Model Lineage Diagram
+┌────────────────────────────────┐
+│ data/raw/ │
+│ (Original Kaggle dataset) │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ notebooks/01*exploratory*... │
+│ Exploratory Data Analysis │
+│ - Inspect & clean data │
+│ - Identify churn drivers │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ notebooks/02*data_preproc*... │
+│ Feature Engineering │
+│ - Encode categorical vars │
+│ - Scale numeric vars │
+│ - Train/test split │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ data/processed/ │
+│ X_train.csv / X_test.csv │
+│ y_train.csv / y_test.csv │
+│ (Model-ready datasets) │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ src/training/ │
+│ - Train ML models │
+│ - Evaluate metrics │
+│ - Generate SHAP explanations │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ Docker / API Layer │
+│ - Containerized app for │
+│ model inference & serving │
+└────────────────────────────────┘
+
+✅ This diagram visualizes the full ML workflow:
+raw → exploration → preprocessing → model training → containerized deployment
+
+It shows end-to-end data movement and how each part of the repo contributes to the applied ML pipeline.
