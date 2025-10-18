@@ -1,0 +1,16 @@
+
+---
+
+## ⚙️ **requirements.txt**
+
+```txt
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+jupyter
+xgboost
+shap
+flask
+gunicorn
