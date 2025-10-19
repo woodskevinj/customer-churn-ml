@@ -13,7 +13,7 @@ This project builds a predictive model to classify churn risk and reveal the key
 
 Data Preprocessing: Cleans and encodes categorical/numeric variables.
 
-EDA: Visualizes churn trends, correlations, and demographics.
+EDA: Visualizes churn trends, correlations, and customer demographics.
 
 Modeling: Baseline Logistic Regression and tree-based models (Random Forest, XGBoost).
 
@@ -23,19 +23,40 @@ Containerization: Dockerized ML app for reproducibility and deployment.
 
 Deployment-Ready: Structured to scale into an API or MLOps workflow.
 
+📘 Notebook Walkthrough
+1️⃣ Exploratory Data Analysis (EDA)
+
+Notebook: 01_exploratory_data_analysis.ipynb
+Explores dataset structure, cleans missing values (notably TotalCharges), and visualizes churn trends.
+Includes demographic distributions, churn imbalance visualization, and early insight extraction.
+
+2️⃣ Data Preprocessing & Feature Engineering
+
+Notebook: 02_data_preprocessing_and_feature_engineering.ipynb
+Encodes categorical features, scales numerical ones, and performs train/test split.
+Saves processed data into data/processed/ for model training and future reproducibility.
+
+3️⃣ Model Training & Evaluation
+
+Notebook: 03_model_training_and_evaluation.ipynb
+Trains and evaluates two models:
+
+Logistic Regression (baseline)
+
+XGBoost (gradient-boosted tree model)
+
+Compares metrics like Accuracy, Precision, Recall, F1-score, and ROC-AUC.
+Visualizes performance using confusion matrices and ROC curves for each model.
+
 🗂️ Project Structure
 customer-churn-ml/
 ├── data/
-│ ├── raw/
-│ │ └── WA*Fn-UseC*-Telco-Customer-Churn.csv
-│ └── processed/
-│ ├── X_train.csv
-│ ├── X_test.csv
-│ ├── y_train.csv
-│ └── y_test.csv
+│ ├── raw/ # Original Kaggle dataset
+│ └── processed/ # Encoded and scaled model-ready datasets
 ├── notebooks/
 │ ├── 01_exploratory_data_analysis.ipynb
-│ └── 02_data_preprocessing_and_feature_engineering.ipynb
+│ ├── 02_data_preprocessing_and_feature_engineering.ipynb
+│ └── 03_model_training_and_evaluation.ipynb
 ├── src/
 │ ├── preprocessing/
 │ ├── training/
@@ -89,25 +110,19 @@ Data ingestion and EDA ✅
 
 Initial preprocessing pipeline ✅
 
-Model training setup ✅
+Model training and evaluation ✅
 
 Enhanced SHAP labeling for interpretability ✅
 
 🧱 Next Steps
 
-Build preprocessing scripts for categorical encoding and numeric scaling
+Perform hyperparameter tuning for XGBoost
 
-Train baseline models and evaluate performance
+Add model persistence (save .joblib model to /models/)
 
-Integrate explainability and export SHAP plots
+Integrate explainability notebook using SHAP visualizations
 
-Containerize and deploy the model as a REST API
-
-📚 References
-
-Telco Customer Churn Dataset — Kaggle
-
-IBM Sample Data Science Dataset
+Containerize and deploy as a REST API
 
 🧭 Project-Level Data & Model Lineage Diagram
 ┌────────────────────────────────┐
@@ -135,14 +150,14 @@ IBM Sample Data Science Dataset
 ▼
 ┌────────────────────────────────┐
 │ data/processed/ │
-│ X_train.csv / X_test.csv │
+│ X*train.csv / X_test.csv │
 │ y_train.csv / y_test.csv │
 │ (Model-ready datasets) │
 └──────────────┬─────────────────┘
 │
 ▼
 ┌────────────────────────────────┐
-│ src/training/ │
+│ notebooks/03_model*... │
 │ - Train ML models │
 │ - Evaluate metrics │
 │ - Generate SHAP explanations │
@@ -159,3 +174,9 @@ IBM Sample Data Science Dataset
 raw → exploration → preprocessing → model training → containerized deployment
 
 It shows end-to-end data movement and how each part of the repo contributes to the applied ML pipeline.
+
+📚 References
+
+Telco Customer Churn Dataset — Kaggle
+
+IBM Sample Data Science Dataset
