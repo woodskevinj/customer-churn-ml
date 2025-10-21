@@ -2,7 +2,7 @@
 
 End-to-end machine learning system for predicting customer churn using the Telco Customer Churn Dataset (IBM)
 .
-This project demonstrates the full applied ML lifecycle — from exploratory data analysis and feature engineering to model training, explainability, containerization, and deployment.
+This project demonstrates the full applied ML lifecycle — from exploratory data analysis and feature engineering to model training, hyperparameter tuning, explainability, and deployment preparation.
 
 🧩 Project Overview
 
@@ -17,7 +17,9 @@ EDA: Visualizes churn trends, correlations, and customer demographics.
 
 Modeling: Baseline Logistic Regression and tree-based models (Random Forest, XGBoost).
 
-Model Explainability: SHAP values for transparent feature importance and interpretability.
+Model Tuning: Uses GridSearchCV for optimized hyperparameters and cross-validation.
+
+Model Explainability: (up next) SHAP values for transparent feature importance and interpretability.
 
 Containerization: Dockerized ML app for reproducibility and deployment.
 
@@ -34,7 +36,7 @@ Includes demographic distributions, churn imbalance visualization, and early ins
 
 Notebook: 02_data_preprocessing_and_feature_engineering.ipynb
 Encodes categorical features, scales numerical ones, and performs train/test split.
-Saves processed data into data/processed/ for model training and future reproducibility.
+Saves processed data into data/processed/ for model training and reproducibility.
 
 3️⃣ Model Training & Evaluation
 
@@ -45,8 +47,20 @@ Logistic Regression (baseline)
 
 XGBoost (gradient-boosted tree model)
 
-Compares metrics like Accuracy, Precision, Recall, F1-score, and ROC-AUC.
-Visualizes performance using confusion matrices and ROC curves for each model.
+Compares performance across Accuracy, Precision, Recall, F1-score, and ROC-AUC,
+and visualizes model performance using confusion matrices and ROC curves.
+
+4️⃣ Hyperparameter Tuning & Model Saving
+
+Notebook: 04_model_tuning_and_saving.ipynb
+Performs GridSearchCV with cross-validation to optimize key XGBoost hyperparameters:
+n_estimators, max_depth, learning_rate, subsample, and colsample_bytree.
+
+Saves the final tuned model to:
+
+/models/xgb_churn_model.pkl
+
+This step ensures reproducibility and provides a ready-to-deploy model artifact for inference.
 
 🗂️ Project Structure
 customer-churn-ml/
@@ -56,7 +70,10 @@ customer-churn-ml/
 ├── notebooks/
 │ ├── 01_exploratory_data_analysis.ipynb
 │ ├── 02_data_preprocessing_and_feature_engineering.ipynb
-│ └── 03_model_training_and_evaluation.ipynb
+│ ├── 03_model_training_and_evaluation.ipynb
+│ └── 04_model_tuning_and_saving.ipynb
+├── models/
+│ └── xgb_churn_model.pkl
 ├── src/
 │ ├── preprocessing/
 │ ├── training/
@@ -88,7 +105,7 @@ Then open:
 
 notebooks/01_exploratory_data_analysis.ipynb
 
-⚙️ Environment Verification (Optional but Recommended)
+⚙️ Environment Verification (Optional)
 
 Inside your notebook, confirm you’re running inside your virtual environment:
 
@@ -108,21 +125,23 @@ Model interpretability is powered by SHAP visualizations that highlight how each
 
 Data ingestion and EDA ✅
 
-Initial preprocessing pipeline ✅
+Preprocessing pipeline ✅
 
-Model training and evaluation ✅
+Model training & evaluation ✅
 
-Enhanced SHAP labeling for interpretability ✅
+Hyperparameter tuning & model saving ✅
+
+Enhanced SHAP labeling for interpretability (next) 🚧
 
 🧱 Next Steps
 
-Perform hyperparameter tuning for XGBoost
+Integrate SHAP explainability notebook for feature-level insights
 
-Add model persistence (save .joblib model to /models/)
+Generate and export SHAP summary plots to /images/
 
-Integrate explainability notebook using SHAP visualizations
+Containerize model and deploy as a REST API
 
-Containerize and deploy as a REST API
+(Optional) Create a lightweight Streamlit dashboard for churn predictions
 
 🧭 Project-Level Data & Model Lineage Diagram
 ┌────────────────────────────────┐
@@ -150,30 +169,34 @@ Containerize and deploy as a REST API
 ▼
 ┌────────────────────────────────┐
 │ data/processed/ │
-│ X*train.csv / X_test.csv │
+│ X*train_processed.csv │
+│ X_test_processed.csv │
 │ y_train.csv / y_test.csv │
 │ (Model-ready datasets) │
 └──────────────┬─────────────────┘
 │
 ▼
 ┌────────────────────────────────┐
-│ notebooks/03_model*... │
-│ - Train ML models │
+│ notebooks/03_model_training*...│
+│ - Train baseline models │
 │ - Evaluate metrics │
-│ - Generate SHAP explanations │
 └──────────────┬─────────────────┘
 │
 ▼
 ┌────────────────────────────────┐
-│ Docker / API Layer │
-│ - Containerized app for │
-│ model inference & serving │
+│ notebooks/04*model_tuning*... │
+│ - Tune hyperparameters │
+│ - Save final model (.pkl) │
+└──────────────┬─────────────────┘
+│
+▼
+┌────────────────────────────────┐
+│ Docker / API Layer (up next) │
+│ - Containerized model serving │
 └────────────────────────────────┘
 
 ✅ This diagram visualizes the full ML workflow:
-raw → exploration → preprocessing → model training → containerized deployment
-
-It shows end-to-end data movement and how each part of the repo contributes to the applied ML pipeline.
+raw → exploration → preprocessing → model training → tuning → containerization
 
 📚 References
 
