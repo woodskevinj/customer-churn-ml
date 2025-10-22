@@ -1,7 +1,6 @@
 📈 Customer Churn Prediction (Telco)
 
-End-to-end machine learning system for predicting customer churn using the Telco Customer Churn Dataset (IBM)
-.
+End-to-end machine learning system for predicting customer churn using the Telco Customer Churn Dataset (IBM).
 This project demonstrates the full applied ML lifecycle — from exploratory data analysis and feature engineering to model training, hyperparameter tuning, explainability, and deployment preparation.
 
 🧩 Project Overview
@@ -19,7 +18,7 @@ Modeling: Baseline Logistic Regression and tree-based models (Random Forest, XGB
 
 Model Tuning: Uses GridSearchCV for optimized hyperparameters and cross-validation.
 
-Model Explainability: (up next) SHAP values for transparent feature importance and interpretability.
+Model Explainability: SHAP-based feature importance and interpretability for transparent decision-making.
 
 Containerization: Dockerized ML app for reproducibility and deployment.
 
@@ -36,7 +35,7 @@ Includes demographic distributions, churn imbalance visualization, and early ins
 
 Notebook: 02_data_preprocessing_and_feature_engineering.ipynb
 Encodes categorical features, scales numerical ones, and performs train/test split.
-Saves processed data into data/processed/ for model training and reproducibility.
+Saves processed data into /data/processed/ for model training and reproducibility.
 
 3️⃣ Model Training & Evaluation
 
@@ -47,20 +46,31 @@ Logistic Regression (baseline)
 
 XGBoost (gradient-boosted tree model)
 
-Compares performance across Accuracy, Precision, Recall, F1-score, and ROC-AUC,
-and visualizes model performance using confusion matrices and ROC curves.
+Compares performance across Accuracy, Precision, Recall, F1-score, and ROC-AUC.
+Visualizes model performance using confusion matrices and ROC curves.
 
 4️⃣ Hyperparameter Tuning & Model Saving
 
 Notebook: 04_model_tuning_and_saving.ipynb
 Performs GridSearchCV with cross-validation to optimize key XGBoost hyperparameters:
 n_estimators, max_depth, learning_rate, subsample, and colsample_bytree.
-
 Saves the final tuned model to:
 
 /models/xgb_churn_model.pkl
 
-This step ensures reproducibility and provides a ready-to-deploy model artifact for inference.
+5️⃣ Model Explainability (New!)
+
+Notebook: 05_explainability.ipynb
+Explains model predictions using SHAP (SHapley Additive exPlanations).
+Generates global and local feature importance plots that provide transparency into how the model evaluates churn risk.
+
+Key visual outputs:
+
+images/shap_summary_plot.png — feature impact summary
+
+images/shap_bar_plot.png — mean absolute SHAP values
+
+images/shap_local_explanation_5.png — local prediction explanation
 
 🗂️ Project Structure
 customer-churn-ml/
@@ -71,13 +81,19 @@ customer-churn-ml/
 │ ├── 01_exploratory_data_analysis.ipynb
 │ ├── 02_data_preprocessing_and_feature_engineering.ipynb
 │ ├── 03_model_training_and_evaluation.ipynb
-│ └── 04_model_tuning_and_saving.ipynb
+│ ├── 04_model_tuning_and_saving.ipynb
+│ └── 05_explainability.ipynb
 ├── models/
 │ └── xgb_churn_model.pkl
 ├── src/
 │ ├── preprocessing/
 │ ├── training/
-│ └── evaluation/
+│ ├── evaluation/
+│ └── explainability.py # SHAP explainability module ✅
+├── images/
+│ ├── shap_summary_plot.png
+│ ├── shap_bar_plot.png
+│ └── shap_local_explanation_5.png
 ├── requirements.txt
 ├── Dockerfile
 └── README.md
@@ -89,9 +105,6 @@ cd customer-churn-ml
 
 2️⃣ Create Virtual Environment
 python -m venv venv
-
-# Activate:
-
 source venv/bin/activate # Mac/Linux
 venv\Scripts\activate # Windows
 
@@ -102,7 +115,6 @@ pip install -r requirements.txt
 jupyter notebook
 
 Then open:
-
 notebooks/01_exploratory_data_analysis.ipynb
 
 ⚙️ Environment Verification (Optional)
@@ -116,11 +128,11 @@ Expected output:
 
 .../customer-churn-ml/venv/bin/python
 
-📊 Model Explainability Preview
+📊 Model Explainability Results
 
 Model interpretability is powered by SHAP visualizations that highlight how each feature contributes to churn predictions.
 
-<p align="center"> <img src="images/shap_summary.png" width="650" alt="Model Explainability Preview"> </p>
+<p align="center"> <img src="images/shap_summary_plot.png" width="650" alt="Global Feature Importance"> </p> <p align="center"> <img src="images/shap_local_explanation_5.png" width="650" alt="Local Prediction Explanation"> </p>
 ✅ Current Progress
 
 Data ingestion and EDA ✅
@@ -131,72 +143,25 @@ Model training & evaluation ✅
 
 Hyperparameter tuning & model saving ✅
 
-Enhanced SHAP labeling for interpretability (next) 🚧
+Model explainability with SHAP ✅
+
+Containerization (next) 🚧
 
 🧱 Next Steps
 
-Integrate SHAP explainability notebook for feature-level insights
+Containerize the model and deploy as a REST API
 
-Generate and export SHAP summary plots to /images/
+Integrate continuous training / CI-CD pipeline
 
-Containerize model and deploy as a REST API
-
-(Optional) Create a lightweight Streamlit dashboard for churn predictions
+(Optional) Create a Streamlit dashboard for real-time churn predictions
 
 🧭 Project-Level Data & Model Lineage Diagram
-┌────────────────────────────────┐
-│ data/raw/ │
-│ (Original Kaggle dataset) │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ notebooks/01*exploratory*... │
-│ Exploratory Data Analysis │
-│ - Inspect & clean data │
-│ - Identify churn drivers │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ notebooks/02*data_preproc*... │
-│ Feature Engineering │
-│ - Encode categorical vars │
-│ - Scale numeric vars │
-│ - Train/test split │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ data/processed/ │
-│ X*train_processed.csv │
-│ X_test_processed.csv │
-│ y_train.csv / y_test.csv │
-│ (Model-ready datasets) │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ notebooks/03_model_training*...│
-│ - Train baseline models │
-│ - Evaluate metrics │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ notebooks/04*model_tuning*... │
-│ - Tune hyperparameters │
-│ - Save final model (.pkl) │
-└──────────────┬─────────────────┘
-│
-▼
-┌────────────────────────────────┐
-│ Docker / API Layer (up next) │
-│ - Containerized model serving │
-└────────────────────────────────┘
+data/raw/ → notebooks/01_eda → notebooks/02_preprocessing → data/processed/
+→ notebooks/03_training → notebooks/04_tuning → models/xgb_churn_model.pkl
+→ notebooks/05_explainability → images/ → Docker/API layer
 
 ✅ This diagram visualizes the full ML workflow:
-raw → exploration → preprocessing → model training → tuning → containerization
+raw → exploration → preprocessing → model training → tuning → explainability → containerization
 
 📚 References
 
