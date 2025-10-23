@@ -1,7 +1,7 @@
 📈 Customer Churn Prediction (Telco)
 
 End-to-end machine learning system for predicting customer churn using the Telco Customer Churn Dataset (IBM).
-This project demonstrates the full applied ML lifecycle — from exploratory data analysis and feature engineering to model training, hyperparameter tuning, explainability, and deployment preparation.
+This project demonstrates the full applied ML lifecycle — from exploratory data analysis and feature engineering to model training, hyperparameter tuning, explainability, and REST API deployment.
 
 🧩 Project Overview
 
@@ -14,15 +14,15 @@ Data Preprocessing: Cleans and encodes categorical/numeric variables.
 
 EDA: Visualizes churn trends, correlations, and customer demographics.
 
-Modeling: Baseline Logistic Regression and tree-based models (Random Forest, XGBoost).
+Modeling: Baseline Logistic Regression and XGBoost for churn classification.
 
 Model Tuning: Uses GridSearchCV for optimized hyperparameters and cross-validation.
 
 Model Explainability: SHAP-based feature importance and interpretability for transparent decision-making.
 
-Containerization: Dockerized ML app for reproducibility and deployment.
+REST API Deployment: Flask API serving live churn predictions from JSON input.
 
-Deployment-Ready: Structured to scale into an API or MLOps workflow.
+Containerization (up next): Prepares the API for Docker and cloud deployment.
 
 📘 Notebook Walkthrough
 1️⃣ Exploratory Data Analysis (EDA)
@@ -46,31 +46,74 @@ Logistic Regression (baseline)
 
 XGBoost (gradient-boosted tree model)
 
-Compares performance across Accuracy, Precision, Recall, F1-score, and ROC-AUC.
-Visualizes model performance using confusion matrices and ROC curves.
+Compares Accuracy, Precision, Recall, F1-score, and ROC-AUC.
+Visualizes model performance with confusion matrices and ROC curves.
 
 4️⃣ Hyperparameter Tuning & Model Saving
 
 Notebook: 04_model_tuning_and_saving.ipynb
 Performs GridSearchCV with cross-validation to optimize key XGBoost hyperparameters:
-n_estimators, max_depth, learning_rate, subsample, and colsample_bytree.
+n_estimators, max_depth, learning_rate, subsample, colsample_bytree.
+
 Saves the final tuned model to:
 
 /models/xgb_churn_model.pkl
 
-5️⃣ Model Explainability (New!)
+5️⃣ Model Explainability
 
 Notebook: 05_explainability.ipynb
 Explains model predictions using SHAP (SHapley Additive exPlanations).
-Generates global and local feature importance plots that provide transparency into how the model evaluates churn risk.
+Generates global and local feature importance plots that visualize how the model evaluates churn risk.
 
 Key visual outputs:
 
-images/shap_summary_plot.png — feature impact summary
+images/shap_summary_plot.png — Global feature impact summary
 
-images/shap_bar_plot.png — mean absolute SHAP values
+images/shap_bar_plot.png — Mean absolute SHAP values
 
-images/shap_local_explanation_5.png — local prediction explanation
+images/shap_local_explanation_5.png — Local prediction explanation
+
+6️⃣ REST API Deployment (New!)
+
+Script: src/app.py
+Serves the trained model as a Flask REST API.
+
+Endpoints:
+
+Endpoint Method Description
+/health GET Returns API status
+/predict POST Accepts customer JSON input and returns churn prediction
+
+Example JSON input:
+
+{
+"gender": "Female",
+"SeniorCitizen": 0,
+"Partner": "Yes",
+"Dependents": "No",
+"tenure": 12,
+"PhoneService": "Yes",
+"MultipleLines": "No",
+"InternetService": "Fiber optic",
+"OnlineSecurity": "No",
+"OnlineBackup": "No",
+"DeviceProtection": "Yes",
+"TechSupport": "No",
+"StreamingTV": "Yes",
+"StreamingMovies": "Yes",
+"Contract": "Month-to-month",
+"PaperlessBilling": "Yes",
+"PaymentMethod": "Electronic check",
+"MonthlyCharges": 79.85,
+"TotalCharges": 941.25
+}
+
+Example response:
+
+{
+"churn_prediction": 1,
+"churn_probability": 0.5144
+}
 
 🗂️ Project Structure
 customer-churn-ml/
@@ -89,13 +132,14 @@ customer-churn-ml/
 │ ├── preprocessing/
 │ ├── training/
 │ ├── evaluation/
-│ └── explainability.py # SHAP explainability module ✅
+│ ├── explainability.py # SHAP explainability module ✅
+│ └── app.py # Flask REST API for churn prediction ✅
 ├── images/
 │ ├── shap_summary_plot.png
 │ ├── shap_bar_plot.png
 │ └── shap_local_explanation_5.png
 ├── requirements.txt
-├── Dockerfile
+├── Dockerfile (coming soon)
 └── README.md
 
 🚀 Getting Started
@@ -117,16 +161,29 @@ jupyter notebook
 Then open:
 notebooks/01_exploratory_data_analysis.ipynb
 
-⚙️ Environment Verification (Optional)
+⚙️ Running the Flask API
 
-Inside your notebook, confirm you’re running inside your virtual environment:
+Start the API:
 
-import sys
-print(sys.executable)
+python src/app.py
 
-Expected output:
+Server runs on:
 
-.../customer-churn-ml/venv/bin/python
+http://127.0.0.1:5050
+
+Test endpoints:
+
+curl http://127.0.0.1:5050/health
+
+✅ Returns:
+
+{"status": "ok", "message": "Churn Prediction API is running"}
+
+Send a test prediction:
+
+curl -X POST http://127.0.0.1:5050/predict \
+-H "Content-Type: application/json" \
+-d '{"gender":"Female","SeniorCitizen":0,"Partner":"Yes","Dependents":"No","tenure":12,"PhoneService":"Yes","MultipleLines":"No","InternetService":"Fiber optic","OnlineSecurity":"No","OnlineBackup":"No","DeviceProtection":"Yes","TechSupport":"No","StreamingTV":"Yes","StreamingMovies":"Yes","Contract":"Month-to-month","PaperlessBilling":"Yes","PaymentMethod":"Electronic check","MonthlyCharges":79.85,"TotalCharges":941.25}'
 
 📊 Model Explainability Results
 
@@ -145,23 +202,27 @@ Hyperparameter tuning & model saving ✅
 
 Model explainability with SHAP ✅
 
+Flask REST API deployment ✅
+
 Containerization (next) 🚧
 
 🧱 Next Steps
 
-Containerize the model and deploy as a REST API
+Create a Dockerfile and containerize the Flask API
 
-Integrate continuous training / CI-CD pipeline
+Deploy container on AWS ECS or EC2
 
-(Optional) Create a Streamlit dashboard for real-time churn predictions
+Integrate CI/CD for retraining and monitoring
 
-🧭 Project-Level Data & Model Lineage Diagram
+(Optional) Create a Streamlit dashboard for interactive churn insights
+
+🧭 Project-Level Data & Model Lineage
 data/raw/ → notebooks/01_eda → notebooks/02_preprocessing → data/processed/
 → notebooks/03_training → notebooks/04_tuning → models/xgb_churn_model.pkl
-→ notebooks/05_explainability → images/ → Docker/API layer
+→ notebooks/05_explainability → src/app.py (REST API) → Docker/API layer
 
-✅ This diagram visualizes the full ML workflow:
-raw → exploration → preprocessing → model training → tuning → explainability → containerization
+✅ Visualizes the full ML workflow:
+raw → preprocessing → training → tuning → explainability → deployment → containerization
 
 📚 References
 
