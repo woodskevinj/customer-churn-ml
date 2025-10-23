@@ -1,0 +1,18 @@
+# Ignore local environments and caches
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+.ipynb_checkpoints/
+*.ipynb
+data/raw/
+data/processed/
+#models/*.pkl
+models/*.json
+images/
+.DS_Store
+.git
+.gitignore
+.env
