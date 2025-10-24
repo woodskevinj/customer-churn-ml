@@ -1,26 +1,24 @@
-# ==========================================================
-# 🐳 Customer Churn Prediction API - Dockerfile
-# ==========================================================
+# Dockerfile
 
-# 1️⃣ Base Image (lightweight Python)
+# Base image
 FROM python:3.10-slim
 
-# 2️⃣ Set working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# 3️⃣ Copy requirements and install dependencies
+# Copy dependencies first
 COPY requirements.txt .
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 4️⃣ Copy the rest of the project files into the container
-COPY . .
+# Copy source code, model, and data
+COPY src/ src/
+COPY models/ models/
+COPY data/processed/ data/processed/
 
-# 5️⃣ Expose Flask port
+# Expose Flask port
 EXPOSE 5050
 
-# 6️⃣ Set environment variables (for Flask)
-ENV PYTHONUNBUFFERED=1
-ENV FLASK_APP=src/app.py
-
-# 7️⃣ Run the API
+# Run the app
 CMD ["python", "src/app.py"]

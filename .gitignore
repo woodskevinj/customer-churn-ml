@@ -1,63 +1,47 @@
-# -----------------------------
-# Python & Virtual Environment
-# -----------------------------
+# 🧠 Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.so
-*.egg
 *.egg-info/
-.eggs/
-*.manifest
-*.spec
-
-# Virtual environment folders
-env/
+*.log
+.env
 venv/
-ENV/
-.venv/
-pip-wheel-metadata/
+.env/
+.DS_Store
 
-# -----------------------------
-# Jupyter Notebooks
-# -----------------------------
+# 🧪 Jupyter
 .ipynb_checkpoints/
-*.nbconvert.ipynb
+notebooks/.ipynb_checkpoints/
 
-# -----------------------------
-# Data & Outputs
-# -----------------------------
+# 🧾 Data — keep processed data local, not in Git
 data/raw/
 data/processed/
-datasets/
-*.csv
-*.tsv
-*.parquet
-*.xlsx
-*.xls
-*.db
-*.sqlite
-*.pkl
-*.joblib
-*.h5
-*.json
-*.zip
-*.gz
+!data/processed/README.md  # keep this one small file to show structure
+
+# 🤖 Models — don’t version large model binaries
+models/*.pkl
+models/*.json
+!models/README.md  # lightweight placeholder if desired
+
+# 🐳 Docker
+*.pid
 *.tar
-*.log
+*.bak
 
-# -----------------------------
-# IDEs & Editors
-# -----------------------------
-.vscode/
+# 🧰 Build & IDE artifacts
 .idea/
-.DS_Store
-Thumbs.db
+.vscode/
+*.swp
+*.swo
 
-# -----------------------------
-# PyCharm & VSCode Config
-# -----------------------------
-*.iml
-*.sublime-workspace
-*.sublime-project
+# 📦 Optional node or frontend cache (if Streamlit or UI later)
+node_modules/
+build/
+dist/
+
+# AWS & Cloud deployment configs
+ecs-task-def.json
+ecs-*.json
+.aws/
+
